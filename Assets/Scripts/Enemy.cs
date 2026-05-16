@@ -11,6 +11,7 @@ public class Enemy : MonoBehaviour
    
    private Rigidbody2D _rigidbody2D;
    private Animator _animator;
+   
    private int _currentPointIndex;
    private bool _isFacingRight = true;
    

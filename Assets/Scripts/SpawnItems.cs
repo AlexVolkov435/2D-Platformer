@@ -6,6 +6,7 @@ public class SpawnItems : MonoBehaviour
 {
     [SerializeField] private int _poolCount;
     [SerializeField] private bool _autoExpand;
+    
     [SerializeField] Coin _coinPrefab;
     [SerializeField] private TextMeshProUGUI _text;
 

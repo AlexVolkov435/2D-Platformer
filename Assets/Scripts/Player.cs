@@ -6,9 +6,9 @@ public class Player : MonoBehaviour
 {
       [SerializeField] private float _moveSpeed = 5f;
       [SerializeField] private float _jumpForce = 7f;
+      [SerializeField] private float _groundDistance = 0.4f;
       
       [SerializeField] private Transform _groundCheck;
-      [SerializeField] private float _groundDistance = 0.4f;
       [SerializeField] private LayerMask _groundMask;
   
       private bool _jumpPressed;

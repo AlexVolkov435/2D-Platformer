@@ -4,6 +4,6 @@ public static class GameEvents
 {
     public static Action<int> PayerReceivedCoin;
     
-    public static void EnemyKilled(int number)
+    public static void OnPayerReceivedCoin(int number)
         => PayerReceivedCoin?.Invoke(number);
 }
