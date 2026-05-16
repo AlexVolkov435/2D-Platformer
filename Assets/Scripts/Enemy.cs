@@ -2,6 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(Animator))]
 public class Enemy : MonoBehaviour
 {
    [SerializeField] private Transform[] _waypoints;
@@ -9,12 +10,21 @@ public class Enemy : MonoBehaviour
    [SerializeField] private float _reachDistance  = 0.1f;
    
    private Rigidbody2D _rigidbody2D;
+   private Animator _animator;
    private int _currentPointIndex;
    private bool _isFacingRight = true;
+   
+   private string _moveX = "moveX";
 
    private void Awake()
    {
+      Initialization();
+   }
+
+   private void Initialization()
+   {
       _rigidbody2D = GetComponent<Rigidbody2D>();
+      _animator = GetComponent<Animator>();
    }
 
    private void FixedUpdate()
@@ -22,7 +32,7 @@ public class Enemy : MonoBehaviour
       Patrol();
       Flip();
    }
-
+   
    private void Patrol()
    {
       if (_waypoints == null || _waypoints.Length == 0)
@@ -46,6 +56,8 @@ public class Enemy : MonoBehaviour
       
       float directionX = Mathf.Sign(currentWaypoint.position.x - transform.position.x);
         
+      _animator.SetFloat(_moveX, Mathf.Abs(directionX));
+      
       _rigidbody2D.linearVelocity = new Vector2(directionX * _moveSpeed, _rigidbody2D.linearVelocity.y);
         
       if (directionX > 0 && transform.localScale.x < 0)
