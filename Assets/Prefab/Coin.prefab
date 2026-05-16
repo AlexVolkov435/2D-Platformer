@@ -139,7 +139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c849a9352fd497e8cd4290ed39928be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _numberOfCoins: 2
+  _numberCoins: 2
 --- !u!50 &7400756771469673573
 Rigidbody2D:
   serializedVersion: 5
