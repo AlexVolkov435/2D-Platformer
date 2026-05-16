@@ -8,9 +8,15 @@ public class Enemy : MonoBehaviour
    [SerializeField] private float _moveSpeed = 2f;
    [SerializeField] private float _reachDistance  = 0.1f;
    
+   private Rigidbody2D _rigidbody2D;
    private int _currentPointIndex;
    private bool _isFacingRight = true;
-   
+
+   private void Awake()
+   {
+      _rigidbody2D = GetComponent<Rigidbody2D>();
+   }
+
    private void FixedUpdate()
    {
       Patrol();
@@ -19,19 +25,36 @@ public class Enemy : MonoBehaviour
 
    private void Patrol()
    {
-      if (_waypoints.Length == 0) return;
+      if (_waypoints == null || _waypoints.Length == 0)
+         return;
 
-      Transform targetWaypoint = _waypoints[_currentPointIndex];
+      Transform currentWaypoint = _waypoints[_currentPointIndex];
+
+      if (currentWaypoint == null)
+         return;
+      
+      float distanceX = Mathf.Abs(transform.position.x - currentWaypoint.position.x);
         
-      transform.position = Vector3.MoveTowards(
-         transform.position,
-         targetWaypoint.position,
-         _moveSpeed * Time.fixedDeltaTime
-      );
-        
-      if (Vector3.Distance(transform.position, targetWaypoint.position) <= _reachDistance)
+      if (distanceX < _reachDistance)
       {
          _currentPointIndex = (_currentPointIndex + 1) % _waypoints.Length;
+         currentWaypoint = _waypoints[_currentPointIndex];
+            
+         if (currentWaypoint == null)
+            return;
+      }
+      
+      float directionX = Mathf.Sign(currentWaypoint.position.x - transform.position.x);
+        
+      _rigidbody2D.linearVelocity = new Vector2(directionX * _moveSpeed, _rigidbody2D.linearVelocity.y);
+        
+      if (directionX > 0 && transform.localScale.x < 0)
+      {
+         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
+      }
+      else if (directionX < 0 && transform.localScale.x > 0)
+      {
+         transform.localScale = new Vector3(-transform.localScale.x, transform.localScale.y, transform.localScale.z);
       }
    }
    

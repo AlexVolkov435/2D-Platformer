@@ -1,12 +1,12 @@
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
 public class Player : MonoBehaviour
 {
-      [Header("Movement Settings")]
       [SerializeField] private float _moveSpeed = 5f;
       [SerializeField] private float _jumpForce = 7f;
-  
-      [Header("Ground Detection")]
+      
       [SerializeField] private Transform _groundCheck;
       [SerializeField] private float _groundDistance = 0.4f;
       [SerializeField] private LayerMask _groundMask;
@@ -16,7 +16,10 @@ public class Player : MonoBehaviour
       
       private Vector2 _moveInput;
       private Rigidbody2D _rigidbody2D;
+      private Animator _animator;
       private InputSystem_Actions _inputSystem;
+
+      private string _moveX = "moveX";
     
       private void Awake()
       {
@@ -26,6 +29,8 @@ public class Player : MonoBehaviour
       private void Initialization()
       {
           _rigidbody2D = GetComponent<Rigidbody2D>();
+          _animator = GetComponent<Animator>();
+          
           _inputSystem = new InputSystem_Actions();
           
           _inputSystem.Player.Move.performed += context => _moveInput = context.ReadValue<Vector2>();
@@ -52,6 +57,8 @@ public class Player : MonoBehaviour
       private void Move()
       {
           float moveX = _moveInput.x;
+          _animator.SetFloat(_moveX, Mathf.Abs(moveX));
+          
           Vector2 movement = new Vector2(moveX * _moveSpeed, _rigidbody2D.linearVelocity.y);
           _rigidbody2D.linearVelocity = movement;
 
